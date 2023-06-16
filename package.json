@@ -1,5 +1,5 @@
 {
-  "name": "semantic-release",
+  "name": "@pepperdash-products/semantic-release",
   "description": "Automated semver compliant package publishing",
   "version": "0.0.0-development",
   "type": "module",
@@ -18,7 +18,7 @@
     "semantic-release": "bin/semantic-release.js"
   },
   "bugs": {
-    "url": "https://github.com/semantic-release/semantic-release/issues"
+    "url": "https://github.com/pepperdash-products/semantic-release/issues"
   },
   "contributors": [
     "Gregor Martynus (https://twitter.com/gr2m)",
