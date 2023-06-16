@@ -120,6 +120,11 @@
     "access": "restricted",
     "provenance": true
   },
+  "release": {    
+    "branches": [
+      "main"      
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/semantic-release/semantic-release.git"
