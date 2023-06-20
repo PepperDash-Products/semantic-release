@@ -117,7 +117,7 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
-    "access": "restricted"    
+    "access": "restricted"
   },
   "repository": {
     "type": "git",

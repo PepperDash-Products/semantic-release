@@ -210,8 +210,6 @@ async function run(context, plugins) {
 
   const existingChannelForGitHead = await getNote(nextRelease.gitHead, { cwd, env });
 
-  logger.debug("existing channel for head", existingChannelForGitHead?.channels);
-
   let channels = {};
 
   if (existingChannelForGitHead.channels) {
