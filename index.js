@@ -16,7 +16,17 @@ import { extractErrors, makeTag } from "./lib/utils.js";
 import getGitAuthUrl from "./lib/get-git-auth-url.js";
 import getBranches from "./lib/branches/index.js";
 import getLogger from "./lib/get-logger.js";
-import { addNote, getGitHead, getTagHead, isBranchUpToDate, push, pushNotes, tag, verifyAuth } from "./lib/git.js";
+import {
+  addNote,
+  getGitHead,
+  getNote,
+  getTagHead,
+  isBranchUpToDate,
+  push,
+  pushNotes,
+  tag,
+  verifyAuth,
+} from "./lib/git.js";
 import getError from "./lib/get-error.js";
 import { COMMIT_EMAIL, COMMIT_NAME } from "./lib/definitions/constants.js";
 
@@ -198,12 +208,24 @@ async function run(context, plugins) {
 
   await plugins.prepare(context);
 
+  const existingChannelForGitHead = await getNote(nextRelease.gitHead, { cwd, env });
+
+  logger.debug("existing channel for head", existingChannelForGitHead?.channels);
+
+  let channels = {};
+
+  if (existingChannelForGitHead.channels) {
+    channels = { channels: [...existingChannelForGitHead.channels, nextRelease.channel] };
+  } else {
+    channels = { channels: [nextRelease.channel] };
+  }
+
   if (options.dryRun) {
     logger.warn(`Skip ${nextRelease.gitTag} tag creation in dry-run mode`);
   } else {
     // Create the tag before calling the publish plugins as some require the tag to exists
     await tag(nextRelease.gitTag, nextRelease.gitHead, { cwd, env });
-    await addNote({ channels: [nextRelease.channel] }, nextRelease.gitHead, { cwd, env });
+    await addNote(channels, nextRelease.gitHead, { cwd, env });
     await push(options.repositoryUrl, { cwd, env });
     await pushNotes(options.repositoryUrl, { cwd, env });
     logger.success(`Created tag ${nextRelease.gitTag}`);
